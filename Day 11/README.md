@@ -137,54 +137,63 @@ Monkeys 2 and 3 aren't holding any items at the end of the round; they both insp
 This process continues for a few more rounds:
 
 After round 2, the monkeys are holding items with these worry levels:
+
     Monkey 0: 695, 10, 71, 135, 350
     Monkey 1: 43, 49, 58, 55, 362
     Monkey 2: 
     Monkey 3: 
 
 After round 3, the monkeys are holding items with these worry levels:
+
     Monkey 0: 16, 18, 21, 20, 122
     Monkey 1: 1468, 22, 150, 286, 739
     Monkey 2: 
     Monkey 3: 
 
 After round 4, the monkeys are holding items with these worry levels:
+
     Monkey 0: 491, 9, 52, 97, 248, 34
     Monkey 1: 39, 45, 43, 258
     Monkey 2: 
     Monkey 3: 
 
 After round 5, the monkeys are holding items with these worry levels:
+
     Monkey 0: 15, 17, 16, 88, 1037
     Monkey 1: 20, 110, 205, 524, 72
     Monkey 2: 
     Monkey 3: 
 
 After round 6, the monkeys are holding items with these worry levels:
+
     Monkey 0: 8, 70, 176, 26, 34
     Monkey 1: 481, 32, 36, 186, 2190
     Monkey 2: 
     Monkey 3: 
 
 After round 7, the monkeys are holding items with these worry levels:
+
     Monkey 0: 162, 12, 14, 64, 732, 17
     Monkey 1: 148, 372, 55, 72
     Monkey 2: 
     Monkey 3: 
 
 After round 8, the monkeys are holding items with these worry levels:
+
     Monkey 0: 51, 126, 20, 26, 136
     Monkey 1: 343, 26, 30, 1546, 36
     Monkey 2: 
     Monkey 3: 
 
 After round 9, the monkeys are holding items with these worry levels:
+
     Monkey 0: 116, 10, 12, 517, 14
     Monkey 1: 108, 267, 43, 55, 288
     Monkey 2: 
     Monkey 3: 
 
 After round 10, the monkeys are holding items with these worry levels:
+
     Monkey 0: 91, 16, 20, 98
     Monkey 1: 481, 245, 22, 26, 1092, 30
     Monkey 2: 
@@ -193,6 +202,7 @@ After round 10, the monkeys are holding items with these worry levels:
 ...
 
 After round 15, the monkeys are holding items with these worry levels:
+
     Monkey 0: 83, 44, 8, 184, 9, 20, 26, 102
     Monkey 1: 110, 36
     Monkey 2: 
@@ -201,6 +211,7 @@ After round 15, the monkeys are holding items with these worry levels:
 ...
 
 After round 20, the monkeys are holding items with these worry levels:
+
     Monkey 0: 10, 12, 14, 26, 34
     Monkey 1: 245, 93, 53, 199, 115
     Monkey 2: 
@@ -228,72 +239,84 @@ At this rate, you might be putting up with these monkeys for a very long time - 
 With these new rules, you can still figure out the monkey business after 10000 rounds. Using the same example above:
 
 == After round 1 ==
+
     Monkey 0 inspected items 2 times.
     Monkey 1 inspected items 4 times.
     Monkey 2 inspected items 3 times.
     Monkey 3 inspected items 6 times.
 
 == After round 20 ==
+
     Monkey 0 inspected items 99 times.
     Monkey 1 inspected items 97 times.
     Monkey 2 inspected items 8 times.
     Monkey 3 inspected items 103 times.
 
 == After round 1000 ==
+
     Monkey 0 inspected items 5204 times.
     Monkey 1 inspected items 4792 times.
     Monkey 2 inspected items 199 times.
     Monkey 3 inspected items 5192 times.
 
 == After round 2000 ==
+
     Monkey 0 inspected items 10419 times.
     Monkey 1 inspected items 9577 times.
     Monkey 2 inspected items 392 times.
     Monkey 3 inspected items 10391 times.
 
 == After round 3000 ==
+
     Monkey 0 inspected items 15638 times.
     Monkey 1 inspected items 14358 times.
     Monkey 2 inspected items 587 times.
     Monkey 3 inspected items 15593 times.
 
 == After round 4000 ==
+
     Monkey 0 inspected items 20858 times.
     Monkey 1 inspected items 19138 times.
     Monkey 2 inspected items 780 times.
     Monkey 3 inspected items 20797 times.
 
 == After round 5000 ==
+
     Monkey 0 inspected items 26075 times.
     Monkey 1 inspected items 23921 times.
     Monkey 2 inspected items 974 times.
     Monkey 3 inspected items 26000 times.
 
 == After round 6000 ==
+
     Monkey 0 inspected items 31294 times.
     Monkey 1 inspected items 28702 times.
     Monkey 2 inspected items 1165 times.
     Monkey 3 inspected items 31204 times.
 
 == After round 7000 ==
+
     Monkey 0 inspected items 36508 times.
     Monkey 1 inspected items 33488 times.
     Monkey 2 inspected items 1360 times.
     Monkey 3 inspected items 36400 times.
 
 == After round 8000 ==
+
     Monkey 0 inspected items 41728 times.
     Monkey 1 inspected items 38268 times.
     Monkey 2 inspected items 1553 times.
     Monkey 3 inspected items 41606 times.
 
 == After round 9000 ==
+
     Monkey 0 inspected items 46945 times.
     Monkey 1 inspected items 43051 times.
     Monkey 2 inspected items 1746 times.
     Monkey 3 inspected items 46807 times.
 
 == After round 10000 ==
+
     Monkey 0 inspected items 52166 times.
     Monkey 1 inspected items 47830 times.
     Monkey 2 inspected items 1938 times.
