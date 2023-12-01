@@ -1,0 +1,21 @@
+id:@p:ajTest:r:2b349c12-892573ce "day1Part1"
+name:day1Part1
+func
+mod:2022-12-20T19:24:46.387Z
+src:
+  (uri) => do
+    totals: []
+    acc: 0
+    uri.ioReadLines().each(line => do
+      if (line == "") do
+        totals = totals.add(acc)
+        acc = 0
+      end
+      else
+        acc = acc + line.parseNumber()
+    end)
+    
+    if (acc > 0) totals = totals.add(acc)
+    
+    totals.fold(max)
+  end

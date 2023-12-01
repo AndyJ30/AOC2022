@@ -1,0 +1,60 @@
+id:@p:ajTest:r:2b36600f-31fe2d08 "day7Part2"
+name:day7Part2
+func
+mod:2022-12-22T00:34:32.58Z
+src:
+  (uri) => do
+    cwd: "/"
+    cid: 0
+    
+    //parse lines into a cmd, dir or file dict:
+    fileTree: uri.ioReadLines()
+      .map((line, i) => do
+        parts: split(line, " ")
+        if (parts[0] == "\$") {cmd: parts[1], param: if(parts.size > 2) parts[2]}
+        else if (parts[0] == "dir") {id:i, dir, name: parts[1]}
+        else {id: i, file, name: parts[1], size: parts[0].parseNumber()}
+      end)
+      //run the cmds to populate the location of each file/dir
+      .map(item => do
+        if (item.has("cmd")) do
+          if (item->cmd == "cd") do
+            dir: item->param
+            if (dir == ".") cwd = cwd
+            else if (dir=="..") cwd = cwd[0..cwd.indexr("/", -2)]
+            else if (dir.startsWith("/")) cwd = dir
+            else cwd = cwd + dir + "/"
+          end
+          return null
+        end
+        else
+          item.merge({parent: cwd})
+      end)
+      .findAll(item => item != null)
+    
+    diskSize: 70000000
+    minSpace: 30000000
+    totalSize: fileTree.findAll(item => item.has("file"))
+      .toGrid()
+      .foldCol("size", sum)
+      
+    freeSpace: diskSize - totalSize
+    overLimit: minSpace - freeSpace
+      
+    //get all the directories and calculate their total sizes
+    dirSizes: fileTree.findAll(item => item.has("dir"))
+      .map(dir => do
+        totalSize: fileTree
+          .findAll(item => item.has("file") and item->parent.startsWith(dir->parent + dir->name + "/"))
+          .toGrid()
+          .foldCol("size", sum)
+  
+        dir.merge({size: totalSize})
+      end)
+      //find all dirs bigger than the amount of space we need to free
+      .findAll(dir => dir->size >= overLimit)
+      .toGrid()
+      .sort("size")[0]->size //sort by size (ascending) and pick the smallest
+      
+    
+  end

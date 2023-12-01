@@ -1,0 +1,71 @@
+id:@p:ajTest:r:2b388c06-6919764a "day11Part1"
+name:day11Part1
+func
+mod:2022-12-23T18:00:23.637Z
+src:
+  (uri) => do
+    monkeys: []
+    monkey: {}
+  
+    uri.ioReadLines()
+    .each(line => do
+      line = line.trim()
+      
+      if (line.startsWith("S"))
+        monkey = monkey.set("items", 
+            line.split(":")[1]
+              .split(",")
+              .map(n => n.trim().parseNumber())
+          )
+      else if (line.startsWith("O"))
+        monkey = monkey.set("operation", 
+            ("(old)=>" + line.split("=")[1].trim()).eval()
+          )
+      else if (line.startsWith("T"))
+        monkey = monkey.set("modulo", line.split(" ")[-1].parseNumber())
+      else if (line.startsWith("If t"))
+        monkey = monkey.set("trueMonkey", line.split(" ")[-1].parseNumber())
+      else if (line.startsWith("If f"))
+        monkey = monkey.set("falseMonkey", line.split(" ")[-1].parseNumber())
+      else if (line == "") do
+        monkeys = monkeys.add(monkey)
+        monkey = {}
+      end
+    end)
+    
+    monkeys = monkeys.add(monkey)
+      .map(monkey => monkey.set("inspected", 0))
+    
+    out: []
+    rounds: 20
+    
+    rounds.times(() => do
+      monkeys.size.times(i => do //can't iterate with each() as we are replacing the monkeys list on each pass
+        monkey = monkeys[i]
+        out = out.add(monkey)
+          monkey->items.each(item => do
+            item = (monkey->operation(item) / 3).floor()
+            if (item.remainder(monkey->modulo) == 0) do
+              j: monkey->trueMonkey
+              m: monkeys[j]
+              monkeys = monkeys.remove(j).insert(j, m.set("items", m->items.add(item)))
+            end
+            else do
+              j: monkey->falseMonkey
+              m: monkeys[j]
+              monkeys = monkeys.remove(j).insert(j, m.set("items", m->items.add(item)))
+            end
+          end)
+          
+          monkey = monkey
+            .set("inspected", monkey->inspected + monkey->items.size)
+            .set("items", [])
+            
+          monkeys = monkeys.remove(i).insert(i, monkey)
+      end)
+    end)
+    
+    monkeys.toGrid.sort("inspected")[-2..-1]
+      .reduce(1, (acc, val, i) => acc * val->inspected)
+    
+  end

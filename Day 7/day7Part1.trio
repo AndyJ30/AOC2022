@@ -1,0 +1,49 @@
+id:@p:ajTest:r:2b36514f-eb2d2e8a "day7Part1"
+name:day7Part1
+func
+mod:2022-12-22T00:23:24.448Z
+src:
+  (uri) => do
+    cwd: "/"
+    cid: 0
+    
+    //parse input into a file/directory tree
+    fileTree: uri.ioReadLines()
+      .map((line, i) => do
+        parts: split(line, " ")
+        if (parts[0] == "\$") {cmd: parts[1], param: if(parts.size > 2) parts[2]}
+        else if (parts[0] == "dir") {id:i, dir, name: parts[1]}
+        else {id: i, file, name: parts[1], size: parts[0].parseNumber()}
+      end)
+      .map(item => do
+        if (item.has("cmd")) do
+          if (item->cmd == "cd") do
+            dir: item->param
+            if (dir == ".") cwd = cwd
+            else if (dir=="..") cwd = cwd[0..cwd.indexr("/", -2)]
+            else if (dir.startsWith("/")) cwd = dir
+            else cwd = cwd + dir + "/"
+          end
+          return null
+        end
+        else
+          item.merge({parent: cwd})
+      end)
+      .findAll(item => item != null)
+  
+    //get all the directories and calculate their total sizes
+    fileTree.findAll(item => item.has("dir"))
+      .map(dir => do
+        totalSize: fileTree
+          .findAll(item => item.has("file") and item->parent.startsWith(dir->parent + dir->name + "/"))
+          .toGrid()
+          .foldCol("size", sum)
+  
+        dir.merge({size: totalSize})
+      end)
+      //total size of all dirs under 100000 in size
+      .findAll(dir => dir->size <= 100000)
+      .toGrid()
+      .foldCol("size", sum)
+    
+  end

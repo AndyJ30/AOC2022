@@ -1,0 +1,23 @@
+id:@p:ajTest:r:2b34b6c3-b8cd2450 "day1Part2"
+name:day1Part2
+func
+mod:2022-12-20T19:25:21.423Z
+src:
+  (uri) => do
+    totals: []
+    acc: 0
+    uri.ioReadLines().each(line => do
+      if (line == "") do
+        totals = totals.add(acc)
+        acc = 0
+      end
+      else
+        acc = acc + line.parseNumber()
+    end)
+    
+    if (acc > 0) totals = totals.add(acc)
+    
+    totals
+      .sort((a,b) => b<=>a)[0..2]
+      .fold(sum)
+  end

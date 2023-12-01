@@ -1,0 +1,27 @@
+id:@p:ajTest:r:2b34cd39-dfba1ef4 "day4Part2"
+name:day4Part2
+func
+mod:2022-12-20T20:00:36.297Z
+src:
+  (uri) => do
+  
+    //func that returns true if rangeA intersects rangeB at any point
+    intersectsRange: (rangeA, rangeB) => do
+      (rangeB[1] >= rangeA[0] and rangeB[1] <= rangeA[1])
+      or 
+      (rangeB[0] >= rangeA[0] and rangeB[0] <= rangeA[1])
+    end
+  
+    uri.ioReadLines()
+     .map(line => do
+        ranges: line.split(",")
+        
+        //get start and end of each range as numbers
+        a: ranges[0].split("-").map(val => val.parseNumber())
+        b: ranges[1].split("-").map(val => val.parseNumber())
+        
+        a.intersectsRange(b) or b.intersectsRange(a)
+      end)
+    .findAll(v => v)
+    .fold(count)
+  end

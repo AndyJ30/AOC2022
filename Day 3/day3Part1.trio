@@ -1,0 +1,29 @@
+id:@p:ajTest:r:2b34b90c-880c6cc5 "day3Part1"
+name:day3Part1
+func
+mod:2022-12-20T19:25:00.438Z
+src:
+  (uri) => do
+    
+    //func to convert a string to a list of char codes
+    toCharList: (str) => do
+      out: []
+      str.each(char => out = out.add(char))
+      out
+    end
+  
+    uri.ioReadLines()
+      .map(line => do
+        a: line[0..(line.size/2)-1].toCharList()
+        b: line[(line.size/2)..-1].toCharList()
+        
+        //find the common char between compartments
+        commonChar: a.find(char => b.contains(char))
+        
+        //convert chars to priorities
+        if ((65..90).contains(commonChar)) commonChar = commonChar - 38       //A..Z
+        else if ((97..122).contains(commonChar)) commonChar = commonChar - 96 //a..z
+              
+      end)
+      .fold(sum)
+  end

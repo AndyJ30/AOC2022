@@ -1,0 +1,33 @@
+id:@p:ajTest:r:2b34a958-ede65c23 "day2Part2"
+name:day2Part2
+func
+mod:2022-12-20T19:25:08.03Z
+src:
+  (uri) => do
+    score: (play, response) => do
+      if (play == response) 
+        return 3 //draw
+      else if (response == (play + 1).remainder(3))  
+        return 6 //win
+      else 
+        return 0 //lose
+    end
+    
+    uri.ioReadLines()
+      .map(line => do
+        vals: line.split(" ")
+        
+        //convert input shapes/outcomes to numbers
+        play: vals[0][0] - 65     //A==0,B==1,C==2...
+        outcome: vals[1][0] - 89  //X==-1,Y==0,Z==1...
+        
+        //pick appropriate response:
+        //(play + outcome) % 3, forcing positive result for negative outcome
+        response: ((play + outcome).remainder(3) + 3).remainder(3)
+        
+        //calculate total score
+        score(play, response) + response + 1
+  
+      end)
+      .fold(sum) 
+  end

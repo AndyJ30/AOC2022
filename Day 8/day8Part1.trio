@@ -1,0 +1,35 @@
+id:@p:ajTest:r:2b366513-ab23d00a "day8Part1"
+name:day8Part1
+func
+mod:2022-12-22T18:00:18.52Z
+src:
+  (uri) => do
+    
+    trees: uri.ioReadLines()
+    .map(line => do
+      numbers: []
+      line.each(char => numbers = numbers.add(char - 48))
+      numbers
+    end)
+    
+    isVisible: (x,y) => do
+      tree: trees[y][x]
+      row: trees[y]
+      col: trees.map(row => row[x])
+      
+      if( x == 0 or not row[0..x-1].any(z => z >= tree) or             //visible from the left
+          x == row.size - 1 or not row[x+1..-1].any(z => z >= tree) or //visible from the right
+          y == 0 or not col[0..y-1].any(z => z >= tree) or             //visible from the top
+          y == col.size - 1 or not col[y+1..-1].any(z => z >= tree)    //visible from the bottom
+        ) return true 
+           
+      return false
+    end
+    
+    trees.map((row, y) => do
+      row.map((tree, x) => isVisible(x,y))
+    end)
+    .map(row => row.findAll(v => v).size) //number of trees visible on each row
+    .fold(sum)
+    
+  end

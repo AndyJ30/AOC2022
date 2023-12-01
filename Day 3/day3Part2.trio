@@ -1,0 +1,33 @@
+id:@p:ajTest:r:2b34c452-7fa32ddb "day3Part2"
+name:day3Part2
+func
+mod:2022-12-20T19:24:51.561Z
+src:
+  (uri) => do
+    
+    //func to convert a string to a list of char codes
+    toCharList: (str) => do
+      out: []
+      str.each(char => out = out.add(char))
+      out
+    end
+  
+    lines: uri.ioReadLines()
+    
+    lines.map((line, i) => do
+        if (i.remainder(3) == 0) do
+          a: line.toCharList()
+          b: lines[i+1].toCharList()
+          c: lines[i+2].toCharList()
+  
+          //find the common char between all 3 bags
+          allChars: a.addAll(b).addAll(c).unique()
+          commonChar: allChars.find(char => a.contains(char) and b.contains(char) and c.contains(char))
+        
+          //convert chars to priorities
+          if ((65..90).contains(commonChar)) commonChar = commonChar - 38       //A..Z
+          else if ((97..122).contains(commonChar)) commonChar = commonChar - 96 //a..z
+        end
+      end)
+      .fold(sum)
+  end

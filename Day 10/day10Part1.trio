@@ -1,0 +1,42 @@
+id:@p:ajTest:r:2b385b0e-9af51c93 "day10Part1"
+name:day10Part1
+func
+mod:2022-12-23T13:06:11.966Z
+src:
+  (uri) => do
+    
+    program: uri.ioReadLines()
+      .map(line => do
+        parts: line.split()
+        {
+          instruction: parts[0], 
+          operand: if (parts.size == 2) parts[1].parseNumber(),
+          clocks: if (parts[0] == "addx") 2 else 1
+        }
+      end)
+      .toGrid()
+    
+    totalClocks: program.foldCol("clocks", sum) 
+  
+    x: 1            //accumulator
+    ip: 0           //instruction pointer
+    ir: program[ip] //instruction register
+    
+    strength:0      //signal strength
+    
+    totalClocks.times(i => do
+      if ((i-19).remainder(40) == 0) strength = strength + ((i+1)*x)
+  
+      ir = ir.set("clocks", ir->clocks -1)
+  
+      if (ir->clocks == 0) do
+        if (ir->instruction == "addx") x = x + ir->operand 
+        ip = ip + 1
+        if (ip < program.size) ir = program[ip]
+      end
+      
+    end)
+    
+    strength
+    
+  end

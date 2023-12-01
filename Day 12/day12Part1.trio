@@ -1,0 +1,42 @@
+id:@p:ajTest:r:2b38b695-b09626fc "day12Part1"
+name:day12Part1
+func
+mod:2023-01-12T20:19:02.761Z
+src:
+  (uri) => do
+  
+    //func to convert a string to a list of char codes
+    toCharList: (str) => do
+      out: []
+      str.each(char => out = out.add(char))
+      out
+    end
+    
+    priorityQueue: []
+    
+    startPos: null
+    endPos:   null
+    
+    heightMap: uri.ioReadLines().map((line, y) => do
+      line.toCharList()
+      .map((char,x) => do
+        if(char == 83) do
+          startPos = {x:x, y:y, cost:0}
+          {elevation: 0, start}
+        end
+        else if (char == 69) do
+          endPos = {x:x, y:y, cost:posInf()}
+          {elevation: 25, end}
+        else do
+          priorityQueue = priorityQueue.add({x:x, y:y, cost:posInf()})
+          {elevation: char - 97}
+        end
+      end)
+    end)
+    
+    priorityQueue = [startPos].addAll(priorityQueue).add(endPos)
+  
+    priorityQueue
+    
+    
+  end

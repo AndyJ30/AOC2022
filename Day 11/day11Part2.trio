@@ -1,0 +1,75 @@
+id:@p:ajTest:r:2b38a236-e996444c "day11Part2"
+name:day11Part2
+func
+mod:2022-12-23T18:55:13.222Z
+src:
+  //writes output to file - run in a task to avoid timeout
+  (uri) => do
+    monkeys: []
+    monkey: {}
+  
+    uri.ioReadLines()
+    .each(line => do
+      line = line.trim()
+      
+      if (line.startsWith("S"))
+        monkey = monkey.set("items", 
+            line.split(":")[1]
+              .split(",")
+              .map(n => n.trim().parseNumber())
+          )
+      else if (line.startsWith("O"))
+        monkey = monkey.set("operation", 
+            ("(old)=>" + line.split("=")[1].trim()).eval()
+          )
+      else if (line.startsWith("T"))
+        monkey = monkey.set("modulo", line.split(" ")[-1].parseNumber())
+      else if (line.startsWith("If t"))
+        monkey = monkey.set("trueMonkey", line.split(" ")[-1].parseNumber())
+      else if (line.startsWith("If f"))
+        monkey = monkey.set("falseMonkey", line.split(" ")[-1].parseNumber())
+      else if (line == "") do
+        monkeys = monkeys.add(monkey)
+        monkey = {}
+      end
+    end)
+    
+    monkeys = monkeys.add(monkey)
+      .map(monkey => monkey.set("inspected", 0))
+    
+    out: []
+    rounds: 10000
+    
+    supermodulo: monkeys.reduce(1, (acc, val, i) => acc * val->modulo)
+    
+    rounds.times((round) => do
+      monkeys.size.times(i => do //can't iterate with each() as we are replacing the monkeys list on each pass
+        monkey = monkeys[i]
+        out = out.add(monkey)
+          monkey->items.each(item => do
+            item = monkey->operation(item).remainder(supermodulo)
+            if (item.remainder(monkey->modulo) == 0) do
+              j: monkey->trueMonkey
+              m: monkeys[j]
+              monkeys = monkeys.remove(j).insert(j, m.set("items", m->items.add(item)))
+            end
+            else do
+              j: monkey->falseMonkey
+              m: monkeys[j]
+              monkeys = monkeys.remove(j).insert(j, m.set("items", m->items.add(item)))
+            end
+          end)
+          
+          monkey = monkey
+            .set("inspected", monkey->inspected + monkey->items.size)
+            .set("items", [])
+            
+          monkeys = monkeys.remove(i).insert(i, monkey)
+      end)
+    end)
+    
+    monkeys.toGrid.sort("inspected")[-2..-1]
+      .reduce(1, (acc, val, i) => acc * val->inspected)
+      .toStr
+      .ioWriteStr(`io/aoc/day11/output`)
+  end

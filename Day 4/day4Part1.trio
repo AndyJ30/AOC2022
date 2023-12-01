@@ -1,0 +1,25 @@
+id:@p:ajTest:r:2b34ca29-633114ed "day4Part1"
+name:day4Part1
+func
+mod:2022-12-20T19:59:00.817Z
+src:
+  (uri) => do
+  
+    //func that returns true if rangeA contains rangeB entirely
+    containsRange: (rangeA, rangeB) => do
+      rangeB[0] >= rangeA[0] and rangeB[1] <= rangeA[1]
+    end
+    
+    uri.ioReadLines()
+     .map(line => do
+        ranges: line.split(",")
+        
+        //get start and end of each range as numbers
+        a: ranges[0].split("-").map(val => val.parseNumber())
+        b: ranges[1].split("-").map(val => val.parseNumber())
+        
+        a.containsRange(b) or b.containsRange(a)
+      end)
+    .findAll(v => v)
+    .fold(count)
+  end

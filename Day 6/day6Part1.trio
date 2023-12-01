@@ -1,0 +1,30 @@
+id:@p:ajTest:r:2b3646f5-0c01321e "day6Part1"
+name:day6Part1
+func
+mod:2022-12-21T23:12:12.219Z
+src:
+  (uri) => do
+    
+    //func to convert a string to a list of char codes
+    toCharList: (str) => do
+      out: []
+      str.each(char => out = out.add(char))
+      out
+    end
+    
+    buffer: uri.ioReadStr().toCharList()
+    
+    markerSize: 4
+    marker: []
+    markerSize.times(i => marker = marker.add(buffer[0]))
+    
+    buffer.reduce(marker, (acc, val, i) => do
+      if (acc.isList()) do
+        //acc shift left and add new char
+        acc = acc[-markerSize + 1..-1].add(val)
+        if (acc.unique.size == acc.size) return i + 1
+      end
+      return acc
+    end)
+    
+  end

@@ -1,0 +1,52 @@
+id:@p:ajTest:r:2b34fa1b-fe5168cd "day5Part1"
+name:day5Part1
+func
+mod:2022-12-21T00:35:23.161Z
+src:
+  (uri) => do
+    lines: uri.ioReadLines()
+    
+    stacks: [[],[],[],[],[],[],[],[],[]]
+    
+    //parse the stacks
+    lines[0..7] 
+      .toGrid()
+      .map((line, i) => line.merge({i:i}))
+      .sortr("i") //there's no "eachr()" so lines that define the initial stacks need to be reversed first
+      .each(row => do
+        stacks.size.times(i => do
+          stack: stacks[i]
+          charCode: row->val[((i)*4)+1]
+          if (not charCode.isSpace()) do
+            stack = stack.add(charCode.toChar())
+            stacks = stacks.remove(i).insert(i, stack)      
+          end
+        end)
+      end)
+  
+    //parse the moves
+    moves: lines[10..-1].map(line => do
+        parts: line.split(" ")
+        {
+          count: parts[1].parseNumber(),
+          from:  parts[3].parseNumber() - 1,  //convert to 0-based for list indexing
+          to:    parts[5].parseNumber() - 1
+        }
+      end)
+    
+    //do the moves
+    moves.each(move => do
+        move->count.times(i => do
+          box: stacks[move->from][-1]
+  
+          stacks = stacks
+            .remove(move->from)
+            .insert(move->from, stacks[move->from].remove(-1))
+            .remove(move->to)
+            .insert(move->to, stacks[move->to].add(box))
+        end)
+      end)
+    
+    //get all the top boxes
+    stacks.map(stack => stack[-1]).concat()
+  end

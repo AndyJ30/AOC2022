@@ -1,0 +1,52 @@
+id:@p:ajTest:r:2b3749cc-1d287fcb "day8Part2"
+name:day8Part2
+func
+mod:2022-12-22T17:59:46.593Z
+src:
+  (uri) => do
+    
+    trees: uri.ioReadLines()
+    .map(line => do
+      numbers: []
+      line.each(char => numbers = numbers.add(char - 48))
+      numbers
+    end)
+    
+    //func to find the distance to the first tree of equal or greater height in a list
+    viewDistance: (tree, list, reverse:false) => do
+      //if reverse flag is passed (i.e. search right-to-left), reverse the list first.
+      if (reverse) list = list.map((val, i) => {val: val, i:i})
+        .sortr((a,b) => a->i <=> b->i)
+        .map(dict => dict->val)
+      
+      //find the distance to the closest tree of greater or equal height
+      list.reduce({max:0, score:0}, (acc, val, i) => do
+          if (acc->max >= tree) acc
+          else if (val > acc->max) {max: val, score: acc->score + 1}
+          else {max: acc->max, score: acc->score + 1}
+        end)->score
+    end
+    
+    score: (x,y) => do
+      tree: trees[y][x]
+      row: trees[y]
+      col: trees.map(row => row[x])
+      
+      leftScore: if (x == 0) 0
+        else tree.viewDistance(row[0..x-1], true) //search to the left
+      rightScore: if (x == row.size - 1) 0
+        else tree.viewDistance(row[x+1..-1])      //search to the right
+      upScore: if (y == 0) 0
+        else tree.viewDistance(col[0..y-1], true) //search up
+      downScore: if (y == col.size - 1) 0
+        else tree.viewDistance(col[y+1..-1])      //search down
+      
+      leftScore * rightScore * upScore * downScore
+    end
+    
+    trees.map((row, y) => do
+        row.map((cell, x) => score(x,y))
+      end)
+     .map(row => row.fold(max))
+     .fold(max)
+  end
